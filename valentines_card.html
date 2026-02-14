@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 Valentine's Card Creator</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #1a0a2e 0%, #4a1c4a 50%, #8b1c4a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffd700, #ff69b4, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { filter: brightness(1); }
+            to { filter: brightness(1.3); }
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #ffb6c1;
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .form-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #ffd1dc;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 182, 193, 0.5);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .flower-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .flower-btn {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 182, 193, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 2rem;
+        }
+        
+        .flower-btn.selected {
+            background: rgba(255, 105, 180, 0.3);
+            border-color: #ff1493;
+        }
+        
+        .create-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-family: 'Dancing Script', cursive;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        .card-section {
+            display: none;
+            text-align: center;
+        }
+        
+        .card-section.show {
+            display: block;
+        }
+        
+        #valentineCard {
+            width: 500px;
+            height: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe4e9 100%);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            color: #4a1c4a;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .card-border {
+            position: absolute;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 3px solid rgba(255, 20, 147, 0.3);
+            border-radius: 15px;
+            pointer-events: none;
+        }
+        
+        .card-flower {
+            font-size: 5rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-to {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            text-align: center;
+            color: #8b1c4a;
+            margin-bottom: 20px;
+        }
+        
+        .card-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            line-height: 1.6;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #ff69b4;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-from {
+            text-align: right;
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: #8b1c4a;
+            margin-top: 20px;
+        }
+        
+        .card-date {
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid rgba(255, 182, 193, 0.5);
+            color: #8b1c4a;
+            font-style: italic;
+        }
+        
+        .download-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #4CAF50, #8BC34A);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            #valentineCard {
+                width: 100%;
+                max-width: 350px;
+                height: auto;
+                min-height: 500px;
+                padding: 25px;
+            }
+            .flower-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💝 Valentine's Card Creator</h1>
+        <p class="subtitle">Create a beautiful card in seconds</p>
+        
+        <div class="form-box">
+            <div class="input-group">
+                <label>To:</label>
+                <input type="text" id="toInput" placeholder="Recipient's name">
+            </div>
+            
+            <div class="input-group">
+                <label>Your Message:</label>
+                <textarea id="msgInput" placeholder="Write your message here..."></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label>From:</label>
+                <input type="text" id="fromInput" placeholder="Your name">
+            </div>
+            
+            <div class="input-group">
+                <label>Choose a Flower:</label>
+                <div class="flower-grid">
+                    <div class="flower-btn selected" onclick="selectFlower(this, '🌹')">🌹</div>
+                    <div class="flower-btn" onclick="selectFlower(this, '🌷')">🌷</div>
+                    <div class="flower-btn" onclick="selectFlower(this, '🌸')">🌸</div>
+                    <div class="flower-btn" onclick="selectFlower(this, '💐')">💐</div>
+                    <div class="flower-btn" onclick="selectFlower(this, '🌻')">🌻</div>
+                    <div class="flower-btn" onclick="selectFlower(this, '🌺')">🌺</div>
+                    <div class="flower-btn" onclick="selectFlower(this, '🌼')">🌼</div>
+                    <div class="flower-btn" onclick="selectFlower(this, '🪷')">🪷</div>
+                </div>
+            </div>
+            
+            <button class="create-btn" onclick="createCard()">✨ Create Card ✨</button>
+        </div>
+        
+        <div class="card-section" id="cardSection">
+            <div id="valentineCard">
+                <div class="card-border"></div>
+                <div>
+                    <div class="card-flower" id="cardFlower">🌹</div>
+                    <div class="card-to">To My Dearest <span id="cardTo">Valentine</span></div>
+                </div>
+                <div class="card-message" id="cardMsg">Your message will appear here</div>
+                <div>
+                    <div class="card-from">With Love,<br><span id="cardFrom">Your Secret Admirer</span></div>
+                    <div class="card-date" id="cardDate"></div>
+                </div>
+            </div>
+            
+            <button class="download-btn" onclick="downloadCard()">📥 Download as Image</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedFlower = '🌹';
+        
+        function selectFlower(btn, flower) {
+            document.querySelectorAll('.flower-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedFlower = flower;
+        }
+        
+        async function createCard() {
+            const to = document.getElementById('toInput').value.trim() || 'Valentine';
+            const msg = document.getElementById('msgInput').value.trim() || 'Wishing you a day filled with love!';
+            const from = document.getElementById('fromInput').value.trim() || 'Your Secret Admirer';
+            
+            document.getElementById('cardTo').textContent = to;
+            document.getElementById('cardMsg').textContent = msg;
+            document.getElementById('cardFrom').textContent = from;
+            document.getElementById('cardFlower').textContent = selectedFlower;
+            
+            const now = new Date();
+            document.getElementById('cardDate').textContent = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            
+            document.getElementById('cardSection').classList.add('show');
+            document.getElementById('cardSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        async function downloadCard() {
+            const card = document.getElementById('valentineCard');
+            
+            try {
+                const canvas = await html2canvas(card, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: null
+                });
+                
+                const link = document.createElement('a');
+                link.download = `valentine-card-${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch (error) {
+                alert('Please take a screenshot instead!');
+            }
+        }
+    </script>
+</body>
+</html>
